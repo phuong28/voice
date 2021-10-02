@@ -34,47 +34,49 @@ def speak(text):
 def command():
     c=sr.Recognizer()
     with sr.Microphone() as source:
-        c.pause_threshold=2 # dung 1 giay sau khi ra lenh moi
+        c.pause_threshold=5 # dung 2 giay sau khi ra lenh moi
         audio=c.listen(source,phrase_time_limit=5)
     try:
         query=c.recognize_google(audio, language="vi-VI" )
         print("người nói :"+ query)
     except sr.UnknownValueError:
         print("Nhập lại đi cưng ")
-        speak("Nhập lại đi")
+        speak("Nhập lại đi tôi không hiểu bạn nói gì")
         query=str(input()) # neu khong nhan duoc tieng noi thi go lenh vao
     return query 
 
 if __name__=="__main__":
-    speak("Chào cưng, cưng tên gì nhỉ")
-    #query=command().lower()
+    speak("Chào bạn, bạn tên gì nhỉ")
+    query=command().lower()
     
-    #txt="chào cưng "+query
-    #speak(txt)
+    txt="chào bạn  "+query
+    speak(txt)
 
-    #speak(" tôi là thợ sửa ống nước")
-    #speak("Tôi có thể giúp cưng các chức năng sau")
-    #speak("1.Mở trình duyệt web và tìm kiếm")
-    #speak("2.Đọc thời gian hiện tại")
-    #speak("3.Mở nhạc trên laptop của cưng")
-    #speak("4.Tìm kiếm thông tin trên wikipedia")
-    #speak("5.Mở các application trên máy cưng")
-    #speak("6.Thay đổi ảnh nền máy cưng")
-    #speak("7.Tìm kiếm thông tin thời tiết của thành phố")
-    #speak("8.Tra map")
-    #speak("9.gửi email")
-    #speak("10.Khởi động và tắt  máy cưng")
-    #speak("11. Đọc báo hôm nay")
+    speak(" tôi là trợ lý ảo ")
+    speak("Tôi có thể giúp cưng các chức năng sau")
+    speak("1.Mở trình duyệt web và tìm kiếm")
+    speak("2.Đọc thời gian hiện tại")
+    speak("3.Mở nhạc trên laptop của bạn")
+    speak("4.Tìm kiếm thông tin trên wikipedia")
+    speak("5.Mở các application trên máy bạn")
+    speak("6.Thay đổi ảnh nền máy bạn")
+    speak("7.Tìm kiếm thông tin thời tiết của thành phố")
+    speak("8.Tra map")
+    speak("9.gửi email")
+    speak("10.Khởi động và tắt  máy bạn")
+    speak("11. Đọc báo hôm nay")
+    speak("12.Mở Webcam")
     while True:
         query=command().lower()
         if "google" in query:
-            speak("Bạn muốn tìm gì vậy cưng")
+            speak("Bạn muốn tìm gì vậy ạ")
             search=command().lower()
             url=f"https://www.google.com/search?q={search}"
             wb.get().open(url)
             speak(f' kết quả tìm kiếm  {search} trên google')
+            
         elif "youtube" in query:
-            speak("Bạn muốn tìm gì vậy cưng")
+            speak("Bạn muốn tìm gì vậy ạ")
             search=command().lower()
             url=f"https://www.youtube.com/search?q={search}"
             wb.get().open(url)
@@ -87,28 +89,28 @@ if __name__=="__main__":
             doc=" bài hát "+baihat+" đã được mở"
             speak(doc)
             ran=os.startfile(os.path.join(music_dir,baihat))
-            exit()
+            
         elif "wikipedia" in query:
             speak("Cưng tìm gì ạ")
             search=command().lower()
             res="kết quả tìm kiếm "+search +" trên wikipedia đã được mở"
             url=f"https://vi.wikipedia.org/wiki/{search}"
             wb.get().open(url)
-            exit()
+            
         elif "văn bản" in query:
-            speak("Word của cưng vừa được mở")
+            speak("Word của bạn vừa được mở")
             os.startfile(r"C:\\Program Files (x86)\\Microsoft Office\\Office16\\WINWORD.EXE")
         elif "ba boi" in query:
-            speak("powerpoint của cưng vừa được mở")
+            speak("powerpoint của bạn vừa được mở")
             os.startfile(r"C:\\Program Files (x86)\\Microsoft Office\\Office16\\POWERPNT.EXE")
         elif "excel" in query:
-            speak("excel của cưng vừa được mở")
+            speak("excel của bạn vừa được mở")
             os.startfile(r"C:\\Program Files (x86)\\Microsoft Office\\Office16\\EXCEL.EXE")
         elif "oăn nốt" in query:
-            speak("one note của cưng vừa được mở")
+            speak("one note của bạn vừa được mở")
             os.startfile(r"C:\\Program Files (x86)\\Microsoft Office\\Office16\\ONENOTE.EXE")
         elif "ao lúc" in query:
-            speak("out look của cưng vừa được mở")
+            speak("out look của bạn vừa được mở")
             os.startfile(r"C:\\Program Files (x86)\\Microsoft Office\\Office16\\OUTLOOK.EXE")
         elif "đổi ảnh nền" in query:
             api_key="Nq3RP19RwurdZXUVtmGk661Tv3c3sih1ogOrxKbM6Ls"
@@ -121,9 +123,9 @@ if __name__=="__main__":
             urllib2.urlretrieve(photo,r"C:\Users\Admin\Downloads\image_change.png")
             image=os.path.join(r"C:\Users\Admin\Downloads\image_change.png")
             ctypes.windll.user32.SystemParametersInfoW(20,0,image,3)
-            speak("ảnh nền máy tính của cưng vừa được thay đổi")
+            speak("ảnh nền máy tính của bạn vừa được thay đổi")
         elif "thời tiết" in query:
-            speak("Cưng muốn xem thời tiết ở đâu")
+            speak("bạn muốn xem thời tiết ở đâu")
             url="http://api.openweathermap.org/data/2.5/weather?"
             city=command().lower()
             if not city:
@@ -152,7 +154,7 @@ if __name__=="__main__":
                 áp suất không khí {current_pressure} héc tơ Pascal
                 độ ẩm là {current_humidity}%
                 Trời hôm nay quang mây. Dự báo mưa rải rác một số nơi."""
-                dcm="chào cưng, cưng muốn xem thời tiết ở"+city+"để ý nghe nhé"
+                dcm="chào bạn, bạn muốn xem thời tiết ở"+city+"để ý nghe nhé"
                 speak(dcm)
                 speak(content)
 
@@ -161,9 +163,9 @@ if __name__=="__main__":
             else:
                 speak("Không tìm thấy địa chỉ của bạn")
         elif "bản đồ" in query:
-            speak("cưng tìm gì ạ")
+            speak("bạn tìm gì ạ")
             search=command().lower()
-            speak("cưng muốn tìm địa chỉ"+search)
+            speak("bạn muốn tìm địa chỉ"+search)
             query=query.replace("bản đồ",search)
             location=query
             
@@ -177,12 +179,12 @@ if __name__=="__main__":
                 speak("Hôm nay là ngày %d tháng %d năm %d" %
                 (now.day, now.month, now.year))
             else:
-                speak("mình chưa hiểu ý của cưng. cưng nói lại được không?")
+                speak("mình chưa hiểu ý của bạn. bạn nói lại được không?")
         elif "tạm biệt bé" in query:
-            speak("tạm biệt cưng nhé")
+            speak("tạm biệt bạn nhé")
             exit()
         elif "đọc báo hôm nay" in query:
-            speak("Cưng muốn đọc gì nào")
+            speak("bạn muốn đọc gì nào")
             queue=command().lower()
             params={
                 'apiKey':'b4f8a816a72e455cba7ded1a329b0b9f',
@@ -207,10 +209,10 @@ if __name__=="__main__":
                 mail.login('ninhphuong2k1nb@gmail.com','2810phuong')
                 mail.sendmail('ninhphuong2k1nb@gmail.com','dunguyendinh2001@gmail.com',content.encode('utf-8'))
                 mail.close()
-                speak("Email của cưng vừa được gửi . Cưng check lại mail nhé")
-            else: speak("Nói lại đi cưng . Chị không hiểu")
+                speak("Email của bạn vừa được gửi . bạn check lại mail nhé")
+            else: speak("Nói lại đi bạn . Chị không hiểu")
         elif "khóa tạm thời"    in query:
-            speak("cưng thích khóa à")
+            speak("bạn thích khóa à")
             ctypes.windll.user32.LockWorkStation()
             exit()
         elif "mở phép tính" in query:
