@@ -1,8 +1,7 @@
 import os
 import subprocess
-
 import playsound
-import speech_recognition as sr
+import  speech_recognition as sr
 import time
 import sys
 import ctypes
@@ -29,12 +28,13 @@ from tkinter import *
 from PIL import Image, ImageTk
 import tkinter.messagebox as mbox
 from pymessager.message import Messager
-from flask import Flask
+from googletrans import Translator, LANGUAGES
+# from flask import Flask
 wikipedia.set_lang('vi')
 languages='vi'
 root = Tk()
 text_area = Text(root, height=26, width=45)
-scroll = Scrollbar(root, command=text_area.yview)
+scroll = Scrollbar(root, command=text_area.yview) # thanh cuon
 def speak(text):
     print(" Tro ly ao" , text)
     tts=gTTS(text= text, lang=languages, slow=False)
@@ -57,36 +57,21 @@ def command():
         speak("Nhập lại đi tôi không hiểu bạn nói gì")
         query=str(input()) # neu khong nhan duoc tieng noi thi go lenh vao
     return query 
-
+def translate(mystory):
+    
+    t = Translator().translate(mystory, dest = "en")
+    return t.text
 
 
 def ham_main():
-    # speak("Chào bạn, bạn tên là gì nhỉ")
-    # query=command().lower()
     
-    # txt="chào bạn  "+query
-    # speak(txt)
-    # speak(" tôi là trợ lý ảo ")
-    # speak("Tôi có thể giúp bạn các chức năng sau")
-    # speak("1.Mở trình duyệt web và tìm kiếm")
-    # speak("2.Đọc thời gian hiện tại")
-    # speak("3.Mở nhạc trên laptop của bạn")
-    # speak("4.Tìm kiếm thông tin trên wikipedia")
-    # speak("5.Mở các application trên máy bạn")
-    # speak("6.Thay đổi ảnh nền máy bạn")
-    # speak("7.Tìm kiếm thông tin thời tiết của thành phố")
-    # speak("8.Tra map")
-    # speak("9.gửi email")
-    # speak("10.Khởi động và tắt  máy bạn")
-    # speak("11. Đọc báo hôm nay")
-    # speak("12.Mở Webcam")
     func()
     while True:
         
         query=command().lower()
         text_area.insert(INSERT,"You: "+query+"\n")
         # root.update()
-        if "google" in query:
+        if translate("google") in translate(query):
             image_1 = ImageTk.PhotoImage(Image.open("image\\trolyao.jpg"))    
             label1 = Label(image=image_1)
             label1.image = image_1
@@ -102,7 +87,7 @@ def ham_main():
             speak(f' kết quả tìm kiếm  {search} trên google')
             text_area.insert(INSERT,"Trợ lý ảo:"+f' kết quả tìm kiếm  {search} trên google'+"\n")
             
-        elif "youtube" in query:
+        elif translate("youtube") in translate(query):
             image_1 = ImageTk.PhotoImage(Image.open("image\\trolyao.jpg"))    
             label1 = Label(image=image_1)
             label1.image = image_1
@@ -117,7 +102,7 @@ def ham_main():
             wb.get().open(url)
             speak(f' kết quả tìm kiếm  {search}  trên youtube')
             text_area.insert(INSERT,"Trợ lý ảo:"+f' kết quả tìm kiếm  {search} trên youtube'+"\n")
-        elif "music" in query or "nhạc" in query:
+        elif translate("music") in translate(query) or translate("nhạc") in translate(query):
             # image_1 = ImageTk.PhotoImage(Image.open("image\\a.gif"))    
             # label1 = Label(image=image_1)
             # label1.image = image_1
@@ -132,7 +117,7 @@ def ham_main():
             speak(doc)
             ran=os.startfile(os.path.join(music_dir,baihat))
             
-        elif "wikipedia" in query:
+        elif translate("wikipedia") in translate(query):
             image_1 = ImageTk.PhotoImage(Image.open("image\\hacker1.jpg"))    
             label1 = Label(image=image_1)
             label1.image = image_1
@@ -148,27 +133,27 @@ def ham_main():
             text_area.insert(INSERT,"Trợ lý ảo :"+ res+"\n")
             wb.get().open(url)
             
-        elif "văn bản" in query:
+        elif translate("văn bản") in translate(query):
             speak("Word của bạn vừa được mở")
             text_area.insert(INSERT,"Trợ lý ảo : Word của bạn vừa được mở\n")
             os.startfile(r"C:\\Program Files (x86)\\Microsoft Office\\Office16\\WINWORD.EXE")
-        elif "power point" in query:
+        elif translate("power point") in translate(query):
             speak("powerpoint của bạn vừa được mở")
             text_area.insert(INSERT,"Trợ lý ảo :powerpoint của bạn vừa được mở\n")
             os.startfile(r"C:\\Program Files (x86)\\Microsoft Office\\Office16\\POWERPNT.EXE")
-        elif "excel" in query:
+        elif translate("excel") in translate(query):
             speak("excel của bạn vừa được mở")
             text_area.insert(INSERT,"Trợ lý ảo :excel của bạn vừa được mở\n")
             os.startfile(r"C:\\Program Files (x86)\\Microsoft Office\\Office16\\EXCEL.EXE")
-        elif "oăn nốt" in query:
+        elif translate("onenote") in translate(query):
             speak("one note của bạn vừa được mở")
             text_area.insert(INSERT,"Trợ lý ảo :one note của bạn vừa được mở\n")
             os.startfile(r"C:\\Program Files (x86)\\Microsoft Office\\Office16\\ONENOTE.EXE")
-        elif "ao lúc" in query:
+        elif translate("out look") in translate(query):
             speak("out look của bạn vừa được mở")
             text_area.insert(INSERT,"Trợ lý ảo :out look của bạn vừa được mở\n")
             os.startfile(r"C:\\Program Files (x86)\\Microsoft Office\\Office16\\OUTLOOK.EXE")
-        elif "đổi ảnh nền" in query:
+        elif translate("đổi ảnh nền") in translate(query):
             image_1 = ImageTk.PhotoImage(Image.open("image\\hacker1.jpg"))    
             label1 = Label(image=image_1)
             label1.image = image_1
@@ -188,7 +173,7 @@ def ham_main():
             ctypes.windll.user32.SystemParametersInfoW(20,0,image,3)
             speak("ảnh nền máy tính của bạn vừa được thay đổi")
             text_area.insert(INSERT,"Trợ lý ảo :ảnh nền máy tính của bạn vừa được thay đổi\n")
-        elif "thời tiết" in query:
+        elif translate("thời tiết") in translate(query):
             image_1 = ImageTk.PhotoImage(Image.open("image\\thoitiet1.jpg"))    
             label1 = Label(image=image_1)
             label1.image = image_1
@@ -238,7 +223,7 @@ def ham_main():
             else:
                 speak("Không tìm thấy địa chỉ của bạn")
                 text_area.insert(INSERT,"Trợ lý ảo :Không tìm thấy địa chỉ của bạn \n")
-        elif "bản đồ" in query:
+        elif translate("bản đồ") in translate(query):
             image_1 = ImageTk.PhotoImage(Image.open("image\\hacker1.jpg"))    
             label1 = Label(image=image_1)
             label1.image = image_1
@@ -257,7 +242,7 @@ def ham_main():
             location=query
             
             wb.open("https://www.google.com/maps/place/"+location+"")
-        elif "thời gian" in query:
+        elif translate("thời gian") in translate(query):
             image_1 = ImageTk.PhotoImage(Image.open("image\\thoigian.jpg"))    
             label1 = Label(image=image_1)
             label1.image = image_1
@@ -270,21 +255,21 @@ def ham_main():
             text_area.insert(INSERT,"You: "+text+"\n")
             root.update()
             time.sleep(3)
-            if "giờ" in text:
+            if translate("giờ") in translate(text):
                 f='Bây giờ là %d giờ %d phút' % (now.hour, now.minute)
                 speak(f)
                 text_area.insert(INSERT,"Trợ lý ảo :"+f+"\n")
-            elif "ngày" in text:
+            elif translate("ngày") in translate(text):
                 f='Hôm nay là ngày %d tháng  %d năm' % (now.date, now.month,now.year)
                 speak('Hôm nay là ngày %d tháng  %d năm' % (now.date, now.month,now.year))
                 text_area.insert(INSERT,"Trợ lý ảo :"+f+"\n")
             else:
                 speak("mình chưa hiểu ý của bạn. bạn nói lại được không?")
                 text_area.insert(INSERT,"Trợ lý ảo :mình chưa hiểu ý của bạn. bạn nói lại được không?"+"\n")
-        elif "tạm biệt " in query:
+        elif translate("tạm biệt ") in translate(query):
             speak("tạm biệt bạn nhé")
             exit()
-        elif "đọc báo hôm nay" in query:
+        elif translate("đọc báo hôm nay") in translate(query):
             speak("bạn muốn đọc gì nào")
             text_area.insert(INSERT,"Trợ lý ảo :bạn muốn đọc gì nào"+"\n")
             queue=command().lower()
@@ -300,7 +285,7 @@ def ham_main():
                 print(f"""Tin{number}:\n Tiêu đề: {result['title']}\n Trích dẫn: {result['description']}\n Link:{result['url']}""")
                 if number<=3:
                     wb.open(result['url'])
-        elif "gửi thư" in query:
+        elif translate("gửi thư") in translate(query):
             speak("Bạn gửi email cho ai nhỉ")
             text_area.insert(INSERT,"Trợ lý ảo :Bạn gửi email cho ai nhỉ"+"\n")
             recipient=command().lower()
@@ -321,16 +306,16 @@ def ham_main():
             else: 
                 speak("Nói lại đi bạn . Tôi không hiểu")
                 text_area.insert(INSERT,"Trợ lý ảo :Nói lại đi bạn . Tôi không hiểu "+"\n")
-        elif "khóa tạm thời"    in query:
+        elif translate("khóa tạm thời") in translate(query):
             speak("bạn thích khóa à")
             ctypes.windll.user32.LockWorkStation()
             exit()
-        elif "mở phép tính" in query:
+        elif translate("mở phép tính") in translate(query):
             subprocess.Popen('C:\\Windows\\System32\\calc.exe')
             exit()
-        elif "khởi động" in query:
+        elif translate("khởi động") in translate(query):
             subprocess.call(["shutdown", "/r"])
-        elif "máy ảnh" in query:
+        elif translate("máy ảnh") in translate(query):
             cam = cv2.VideoCapture(0)
 
             img_counter = 0
