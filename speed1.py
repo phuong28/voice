@@ -62,7 +62,197 @@ def translate(mystory):
     t = Translator().translate(mystory, dest = "en")
     return t.text
 
+def google():
+    image_1 = ImageTk.PhotoImage(Image.open("image\\trolyao.jpg"))    
+    label1 = Label(image=image_1)
+    label1.image = image_1
+    label1.place(x=7, y=43)
+    speak("Bạn muốn tìm gì vậy ạ")
+    text_area.insert(INSERT,"Trợ lý ảo: Bạn muốn tìm gì vậy ạ \n")
+    root.update()
+    time.sleep(3.5)
+    search=command().lower()
+    text_area.insert(INSERT,"You :"+ search+"\n")
+    url=f"https://www.google.com/search?q={search}"
+    wb.get().open(url)
+    speak(f' kết quả tìm kiếm  {search} trên google')
+    text_area.insert(INSERT,"Trợ lý ảo:"+f' kết quả tìm kiếm  {search} trên google'+"\n")
 
+def youtube():
+    image_1 = ImageTk.PhotoImage(Image.open("image\\trolyao.jpg"))    
+    label1 = Label(image=image_1)
+    label1.image = image_1
+    label1.place(x=7, y=43)
+    speak("Bạn muốn tìm gì vậy ạ")
+    text_area.insert(INSERT,"Trợ lý ảo: Bạn muốn tìm gì vậy ạ \n")
+    root.update()
+    time.sleep(3.5)
+    search=command().lower()
+    text_area.insert(INSERT,"You :"+ search+"\n")
+    url=f"https://www.youtube.com/search?q={search}"
+    wb.get().open(url)
+    speak(f' kết quả tìm kiếm  {search}  trên youtube')
+    text_area.insert(INSERT,"Trợ lý ảo:"+f' kết quả tìm kiếm  {search} trên youtube'+"\n")
+def music():
+    speak(" Nghe nhạc nhá")
+            # root.update()
+            # time.sleep(3.5)
+    music_dir="C:\\Users\\Admin\\Music"
+    songs=os.listdir(music_dir)
+    baihat=random.choice(songs)
+    doc=" bài hát "+baihat+" đã được mở"
+    speak(doc)
+    ran=os.startfile(os.path.join(music_dir,baihat))
+    
+def wiki():
+    image_1 = ImageTk.PhotoImage(Image.open("image\\hacker1.jpg"))    
+    label1 = Label(image=image_1)
+    label1.image = image_1
+    label1.place(x=7, y=43)
+    speak("Bạn tìm gì ạ")
+    text_area.insert(INSERT,"Trợ lý ảo: Bạn muốn tìm gì vậy ạ \n")
+    root.update()
+    time.sleep(3.5)
+    search=command().lower()
+    text_area.insert(INSERT,"You :"+ search+"\n")
+    res="kết quả tìm kiếm "+search +" trên wikipedia đã được mở"
+    url=f"https://vi.wikipedia.org/wiki/{search}"
+    text_area.insert(INSERT,"Trợ lý ảo :"+ res+"\n")
+    wb.get().open(url)
+def backgroun():
+    image_1 = ImageTk.PhotoImage(Image.open("image\\hacker1.jpg"))    
+    label1 = Label(image=image_1)
+    label1.image = image_1
+    label1.place(x=7, y=43)
+            
+    root.update()
+    time.sleep(3.5)
+    api_key="Nq3RP19RwurdZXUVtmGk661Tv3c3sih1ogOrxKbM6Ls"
+    url='http://api.unsplash.com/photos/random?client_id='+api_key
+    f=urllib2.urlopen(url)
+    json_string=f.read()
+    f.close()
+    parsed_json=json.loads(json_string)
+    photo=parsed_json['urls']['full']
+    urllib2.urlretrieve(photo,r"C:\Users\Admin\Downloads\image_change.png")
+    image=os.path.join(r"C:\Users\Admin\Downloads\image_change.png")
+    ctypes.windll.user32.SystemParametersInfoW(20,0,image,3)
+    speak("ảnh nền máy tính của bạn vừa được thay đổi")
+    text_area.insert(INSERT,"Trợ lý ảo :ảnh nền máy tính của bạn vừa được thay đổi\n")
+def thoitiet():
+    image_1 = ImageTk.PhotoImage(Image.open("image\\thoitiet1.jpg"))    
+    label1 = Label(image=image_1)
+    label1.image = image_1
+    label1.place(x=7, y=43)
+            
+    speak("bạn muốn xem thời tiết ở đâu")
+    text_area.insert(INSERT,"Trợ lý ảo :bạn muốn xem thời tiết ở đâu\n")
+    root.update()
+    time.sleep(3.5)
+    url="http://api.openweathermap.org/data/2.5/weather?"
+    city=command().lower()
+    text_area.insert(INSERT,"You: "+city+"\n")
+    if not city:
+        pass
+    api_key="8eaefe86e0342339fc1f2c45400173a3"
+    call_url=url+"appid="+api_key+"&q="+city
+    respone=requests.get(call_url)
+    data=respone.json()
+    if data["cod"]!="404":
+        city_res=data['main']
+        current_temperaturr=city_res["temp"]
+        t=int(current_temperaturr/10)
+        current_pressure=city_res["pressure"]
+        current_humidity = city_res["humidity"]
+        suntime = data["sys"]
+        sunrise = datetime.datetime.fromtimestamp(suntime["sunrise"])
+        sunset = datetime.datetime.fromtimestamp(suntime["sunset"])
+        wthr = data["weather"]
+        weather_description = wthr[0]["description"]
+        now = datetime.datetime.now()
+        content = f"""
+                Hôm nay là ngày {now.day} tháng {now.month} năm {now.year}
+                Mặt trời mọc lúc {sunrise.hour} giờ  {sunrise.minute} phút
+                Mặt trời lặn lúc {sunset.hour} giờ {sunset.minute} phút
+                Nhiệt độ trung bình là { t} độ C
+                áp suất không khí {current_pressure} héc tơ Pascal
+                độ ẩm là {current_humidity}%
+                Trời hôm nay quang mây. Dự báo mưa rải rác một số nơi."""
+        dcm="chào bạn, bạn muốn xem thời tiết ở"+city+"để ý nghe nhé"
+        speak(dcm)
+        speak(content)
+        text_area.insert(INSERT,"Trợ lý ảo :"+dcm+"\n")
+        text_area.insert(INSERT,"Trợ lý ảo :"+content+"\n")
+                
+        time.sleep(15)
+
+    else:
+                speak("Không tìm thấy địa chỉ của bạn")
+                text_area.insert(INSERT,"Trợ lý ảo :Không tìm thấy địa chỉ của bạn \n")
+def thoigian():
+    image_1 = ImageTk.PhotoImage(Image.open("image\\thoigian.jpg"))    
+    label1 = Label(image=image_1)
+    label1.image = image_1
+    label1.place(x=7, y=43)
+            
+    now = datetime.datetime.now()
+    speak("Bạn muốn ngày hay giờ ạ")
+    text_area.insert(INSERT,"Trợ lý ảo :bạn muốn xem ngày hay giờ ạ \n")
+    text=command().lower()
+    text_area.insert(INSERT,"You: "+text+"\n")
+    root.update()
+    time.sleep(3)
+    if translate("giờ") in translate(text):
+        f='Bây giờ là %d giờ %d phút' % (now.hour, now.minute)
+        speak(f)
+        text_area.insert(INSERT,"Trợ lý ảo :"+f+"\n")
+    elif translate("ngày") in translate(text):
+        f='Hôm nay là ngày %d tháng  %d năm' % (now.date, now.month,now.year)
+        speak('Hôm nay là ngày %d tháng  %d năm' % (now.date, now.month,now.year))
+        text_area.insert(INSERT,"Trợ lý ảo :"+f+"\n")
+    else:
+                speak("mình chưa hiểu ý của bạn. bạn nói lại được không?")
+                text_area.insert(INSERT,"Trợ lý ảo :mình chưa hiểu ý của bạn. bạn nói lại được không?"+"\n")
+def docbao():
+    speak("bạn muốn đọc gì nào")
+    text_area.insert(INSERT,"Trợ lý ảo :bạn muốn đọc gì nào"+"\n")
+    queue=command().lower()
+    text_area.insert(INSERT,"You: "+queue+"\n")
+    params={
+                'apiKey':'b4f8a816a72e455cba7ded1a329b0b9f',
+                "q":queue,
+            }
+    api_result=requests.get('http://newsapi.org/v2/top-headlines?',params)
+    api_response=api_result.json()
+    print("Tin tức")
+    for number,result in enumerate(api_response['articles'],start=1):
+        print(f"""Tin{number}:\n Tiêu đề: {result['title']}\n Trích dẫn: {result['description']}\n Link:{result['url']}""")
+        if number<=3:
+            wb.open(result['url'])
+def wbcam():
+    cam = cv2.VideoCapture(0)
+
+    img_counter = 0
+    while True:
+        ret, frame = cam.read()
+        if not ret:
+            speak("lỗi rồi")
+            break
+        cv2.imshow("Camera", frame)
+        k = cv2.waitKey(1)
+        if k==113:# nhấn phím q
+            speak("Ứng dụng vừa được đóng")
+            text_area.insert(INSERT,"Trợ lý ảo :Ứng dụng vừa được đóng "+"\n")
+            break
+        elif k==32:
+            img_name = "picture_{}.png".format(img_counter)
+            cv2.imwrite(img_name, frame)
+            speak("Ảnh vừa được chụp")
+            text_area.insert(INSERT,"Trợ lý ảo :ảnh vừa đưọc chụp"+"\n")
+            img_counter += 1     
+        cam.release()
+        cam.destroyAllWindows()
+        
 def ham_main():
     
     func()
@@ -72,66 +262,19 @@ def ham_main():
         text_area.insert(INSERT,"You: "+query+"\n")
         # root.update()
         if translate("google") in translate(query):
-            image_1 = ImageTk.PhotoImage(Image.open("image\\trolyao.jpg"))    
-            label1 = Label(image=image_1)
-            label1.image = image_1
-            label1.place(x=7, y=43)
-            speak("Bạn muốn tìm gì vậy ạ")
-            text_area.insert(INSERT,"Trợ lý ảo: Bạn muốn tìm gì vậy ạ \n")
-            root.update()
-            time.sleep(3.5)
-            search=command().lower()
-            text_area.insert(INSERT,"You :"+ search+"\n")
-            url=f"https://www.google.com/search?q={search}"
-            wb.get().open(url)
-            speak(f' kết quả tìm kiếm  {search} trên google')
-            text_area.insert(INSERT,"Trợ lý ảo:"+f' kết quả tìm kiếm  {search} trên google'+"\n")
+            google()
             
         elif translate("youtube") in translate(query):
-            image_1 = ImageTk.PhotoImage(Image.open("image\\trolyao.jpg"))    
-            label1 = Label(image=image_1)
-            label1.image = image_1
-            label1.place(x=7, y=43)
-            speak("Bạn muốn tìm gì vậy ạ")
-            text_area.insert(INSERT,"Trợ lý ảo: Bạn muốn tìm gì vậy ạ \n")
-            root.update()
-            time.sleep(3.5)
-            search=command().lower()
-            text_area.insert(INSERT,"You :"+ search+"\n")
-            url=f"https://www.youtube.com/search?q={search}"
-            wb.get().open(url)
-            speak(f' kết quả tìm kiếm  {search}  trên youtube')
-            text_area.insert(INSERT,"Trợ lý ảo:"+f' kết quả tìm kiếm  {search} trên youtube'+"\n")
+           youtube()
         elif translate("music") in translate(query) or translate("nhạc") in translate(query):
             # image_1 = ImageTk.PhotoImage(Image.open("image\\a.gif"))    
             # label1 = Label(image=image_1)
             # label1.image = image_1
             # label1.place(x=7, y=43)
-            speak(" Nghe nhạc nhá")
-            # root.update()
-            # time.sleep(3.5)
-            music_dir="C:\\Users\\Admin\\Music"
-            songs=os.listdir(music_dir)
-            baihat=random.choice(songs)
-            doc=" bài hát "+baihat+" đã được mở"
-            speak(doc)
-            ran=os.startfile(os.path.join(music_dir,baihat))
+            music()
             
         elif translate("wikipedia") in translate(query):
-            image_1 = ImageTk.PhotoImage(Image.open("image\\hacker1.jpg"))    
-            label1 = Label(image=image_1)
-            label1.image = image_1
-            label1.place(x=7, y=43)
-            speak("Bạn tìm gì ạ")
-            text_area.insert(INSERT,"Trợ lý ảo: Bạn muốn tìm gì vậy ạ \n")
-            root.update()
-            time.sleep(3.5)
-            search=command().lower()
-            text_area.insert(INSERT,"You :"+ search+"\n")
-            res="kết quả tìm kiếm "+search +" trên wikipedia đã được mở"
-            url=f"https://vi.wikipedia.org/wiki/{search}"
-            text_area.insert(INSERT,"Trợ lý ảo :"+ res+"\n")
-            wb.get().open(url)
+            wiki()
             
         elif translate("văn bản") in translate(query):
             speak("Word của bạn vừa được mở")
@@ -154,75 +297,12 @@ def ham_main():
             text_area.insert(INSERT,"Trợ lý ảo :out look của bạn vừa được mở\n")
             os.startfile(r"C:\\Program Files (x86)\\Microsoft Office\\Office16\\OUTLOOK.EXE")
         elif translate("đổi ảnh nền") in translate(query):
-            image_1 = ImageTk.PhotoImage(Image.open("image\\hacker1.jpg"))    
-            label1 = Label(image=image_1)
-            label1.image = image_1
-            label1.place(x=7, y=43)
-            
-            root.update()
-            time.sleep(3.5)
-            api_key="Nq3RP19RwurdZXUVtmGk661Tv3c3sih1ogOrxKbM6Ls"
-            url='http://api.unsplash.com/photos/random?client_id='+api_key
-            f=urllib2.urlopen(url)
-            json_string=f.read()
-            f.close()
-            parsed_json=json.loads(json_string)
-            photo=parsed_json['urls']['full']
-            urllib2.urlretrieve(photo,r"C:\Users\Admin\Downloads\image_change.png")
-            image=os.path.join(r"C:\Users\Admin\Downloads\image_change.png")
-            ctypes.windll.user32.SystemParametersInfoW(20,0,image,3)
-            speak("ảnh nền máy tính của bạn vừa được thay đổi")
-            text_area.insert(INSERT,"Trợ lý ảo :ảnh nền máy tính của bạn vừa được thay đổi\n")
+            backgroun()
         elif translate("thời tiết") in translate(query):
-            image_1 = ImageTk.PhotoImage(Image.open("image\\thoitiet1.jpg"))    
-            label1 = Label(image=image_1)
-            label1.image = image_1
-            label1.place(x=7, y=43)
-            
-            speak("bạn muốn xem thời tiết ở đâu")
-            text_area.insert(INSERT,"Trợ lý ảo :bạn muốn xem thời tiết ở đâu\n")
-            root.update()
-            time.sleep(3.5)
-            url="http://api.openweathermap.org/data/2.5/weather?"
-            city=command().lower()
-            text_area.insert(INSERT,"You: "+city+"\n")
-            if not city:
-                pass
-            api_key="8eaefe86e0342339fc1f2c45400173a3"
-            call_url=url+"appid="+api_key+"&q="+city
-            respone=requests.get(call_url)
-            data=respone.json()
-            if data["cod"]!="404":
-                city_res=data['main']
-                current_temperaturr=city_res["temp"]
-                t=int(current_temperaturr/10)
-                current_pressure=city_res["pressure"]
-                current_humidity = city_res["humidity"]
-                suntime = data["sys"]
-                sunrise = datetime.datetime.fromtimestamp(suntime["sunrise"])
-                sunset = datetime.datetime.fromtimestamp(suntime["sunset"])
-                wthr = data["weather"]
-                weather_description = wthr[0]["description"]
-                now = datetime.datetime.now()
-                content = f"""
-                Hôm nay là ngày {now.day} tháng {now.month} năm {now.year}
-                Mặt trời mọc lúc {sunrise.hour} giờ  {sunrise.minute} phút
-                Mặt trời lặn lúc {sunset.hour} giờ {sunset.minute} phút
-                Nhiệt độ trung bình là { t} độ C
-                áp suất không khí {current_pressure} héc tơ Pascal
-                độ ẩm là {current_humidity}%
-                Trời hôm nay quang mây. Dự báo mưa rải rác một số nơi."""
-                dcm="chào bạn, bạn muốn xem thời tiết ở"+city+"để ý nghe nhé"
-                speak(dcm)
-                speak(content)
-                text_area.insert(INSERT,"Trợ lý ảo :"+dcm+"\n")
-                text_area.insert(INSERT,"Trợ lý ảo :"+content+"\n")
-                
-                time.sleep(15)
+            thoitiet ()
+            time.sleep(15)
 
-            else:
-                speak("Không tìm thấy địa chỉ của bạn")
-                text_area.insert(INSERT,"Trợ lý ảo :Không tìm thấy địa chỉ của bạn \n")
+            
         elif translate("bản đồ") in translate(query):
             image_1 = ImageTk.PhotoImage(Image.open("image\\hacker1.jpg"))    
             label1 = Label(image=image_1)
@@ -243,69 +323,34 @@ def ham_main():
             
             wb.open("https://www.google.com/maps/place/"+location+"")
         elif translate("thời gian") in translate(query):
-            image_1 = ImageTk.PhotoImage(Image.open("image\\thoigian.jpg"))    
-            label1 = Label(image=image_1)
-            label1.image = image_1
-            label1.place(x=7, y=43)
-            
-            now = datetime.datetime.now()
-            speak("Bạn muốn ngày hay giờ ạ")
-            text_area.insert(INSERT,"Trợ lý ảo :bạn muốn xem ngày hay giờ ạ \n")
-            text=command().lower()
-            text_area.insert(INSERT,"You: "+text+"\n")
-            root.update()
-            time.sleep(3)
-            if translate("giờ") in translate(text):
-                f='Bây giờ là %d giờ %d phút' % (now.hour, now.minute)
-                speak(f)
-                text_area.insert(INSERT,"Trợ lý ảo :"+f+"\n")
-            elif translate("ngày") in translate(text):
-                f='Hôm nay là ngày %d tháng  %d năm' % (now.date, now.month,now.year)
-                speak('Hôm nay là ngày %d tháng  %d năm' % (now.date, now.month,now.year))
-                text_area.insert(INSERT,"Trợ lý ảo :"+f+"\n")
-            else:
-                speak("mình chưa hiểu ý của bạn. bạn nói lại được không?")
-                text_area.insert(INSERT,"Trợ lý ảo :mình chưa hiểu ý của bạn. bạn nói lại được không?"+"\n")
+            thoigian()
         elif translate("tạm biệt ") in translate(query):
             speak("tạm biệt bạn nhé")
             exit()
         elif translate("đọc báo hôm nay") in translate(query):
-            speak("bạn muốn đọc gì nào")
-            text_area.insert(INSERT,"Trợ lý ảo :bạn muốn đọc gì nào"+"\n")
-            queue=command().lower()
-            text_area.insert(INSERT,"You: "+queue+"\n")
-            params={
-                'apiKey':'b4f8a816a72e455cba7ded1a329b0b9f',
-                "q":queue,
-            }
-            api_result=requests.get('http://newsapi.org/v2/top-headlines?',params)
-            api_response=api_result.json()
-            print("Tin tức")
-            for number,result in enumerate(api_response['articles'],start=1):
-                print(f"""Tin{number}:\n Tiêu đề: {result['title']}\n Trích dẫn: {result['description']}\n Link:{result['url']}""")
-                if number<=3:
-                    wb.open(result['url'])
+            docbao()
         elif translate("gửi thư") in translate(query):
             speak("Bạn gửi email cho ai nhỉ")
             text_area.insert(INSERT,"Trợ lý ảo :Bạn gửi email cho ai nhỉ"+"\n")
-            recipient=command().lower()
-            text_area.insert(INSERT,"You: "+recipient+"\n")
-            if "đủ" in recipient:
-                speak("Nội dung bạn muốn gửi là gì")
-                text_area.insert(INSERT,"Trợ lý ảo :Nội dung bạn muốn gửi là gì"+"\n")
-                content=command().lower()
-                text_area.insert(INSERT,"You: "+content+"\n")
-                mail=smtplib.SMTP('smtp.gmail.com',587)
-                mail.ehlo()
-                mail.starttls()
-                mail.login('ninhphuong2k1nb@gmail.com','2810phuong')
-                mail.sendmail('ninhphuong2k1nb@gmail.com','dunguyendinh2001@gmail.com',content.encode('utf-8'))
-                mail.close()
-                speak("Email của bạn vừa được gửi . bạn check lại mail nhé")
-                text_area.insert(INSERT,"Trợ lý ảo :Email của bạn vừa được gửi . bạn check lại mail nhé"+"\n")
-            else: 
-                speak("Nói lại đi bạn . Tôi không hiểu")
-                text_area.insert(INSERT,"Trợ lý ảo :Nói lại đi bạn . Tôi không hiểu "+"\n")
+            # recipient=command().lower()
+            s=input()
+            text_area.insert(INSERT,"You: "+s+"\n")
+            # if "đủ" in recipient:
+            speak("Nội dung bạn muốn gửi là gì")
+            text_area.insert(INSERT,"Trợ lý ảo :Nội dung bạn muốn gửi là gì"+"\n")
+            content=command().lower()
+            text_area.insert(INSERT,"You: "+content+"\n")
+            mail=smtplib.SMTP('smtp.gmail.com',587)
+            mail.ehlo()
+            mail.starttls()
+            mail.login('ninhphuong2k1nb@gmail.com','2810phuong')
+            mail.sendmail('ninhphuong2k1nb@gmail.com',s,content.encode('utf-8'))
+            mail.close()
+            speak("Email của bạn vừa được gửi . bạn check lại mail nhé")
+            text_area.insert(INSERT,"Trợ lý ảo :Email của bạn vừa được gửi . bạn check lại mail nhé"+"\n")
+            # else: 
+            # speak("Nói lại đi bạn . Tôi không hiểu")
+            # text_area.insert(INSERT,"Trợ lý ảo :Nói lại đi bạn . Tôi không hiểu "+"\n")
         elif translate("khóa tạm thời") in translate(query):
             speak("bạn thích khóa à")
             ctypes.windll.user32.LockWorkStation()
@@ -316,28 +361,7 @@ def ham_main():
         elif translate("khởi động") in translate(query):
             subprocess.call(["shutdown", "/r"])
         elif translate("máy ảnh") in translate(query):
-            cam = cv2.VideoCapture(0)
-
-            img_counter = 0
-            while True:
-                ret, frame = cam.read()
-                if not ret:
-                    speak("lỗi rồi")
-                    break
-                cv2.imshow("Camera", frame)
-                k = cv2.waitKey(1)
-                if k==113:# nhấn phím q
-                    speak("Ứng dụng vừa được đóng")
-                    text_area.insert(INSERT,"Trợ lý ảo :Ứng dụng vừa được đóng "+"\n")
-                    break
-                elif k==32:
-                    img_name = "picture_{}.png".format(img_counter)
-                    cv2.imwrite(img_name, frame)
-                    speak("Ảnh vừa được chụp")
-                    text_area.insert(INSERT,"Trợ lý ảo :ảnh vừa đưọc chụp"+"\n")
-                img_counter += 1     
-            cam.release()
-            cam.destroyAllWindows()
+            wbcam()
         text_area.insert(INSERT,"_____________________________________________")
         query=""
         time.sleep(7)
